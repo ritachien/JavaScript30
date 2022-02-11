@@ -64,7 +64,7 @@
       left: 50%;
       transform-origin: bottom;
       transform: rotate(0deg);
-      transition: all 0s;
+      transition: all 5ms;
       border-radius: 50%;
     }
 
@@ -91,27 +91,31 @@
   <script>
     'use strick'
     const secondHand = document.querySelector('.second-hand');
-    const minHand = document.querySelector('.min-hand');
+    const minuteHand = document.querySelector('.min-hand');
     const hourHand = document.querySelector('.hour-hand');
 
-    function setDate() {
-      const now = new Date();
-
+    function setTime() {
+      const now = new Date()
       const seconds = now.getSeconds();
-      const secondsDegree = (seconds / 60) * 360;
-      secondHand.style.transform = `rotate(${secondsDegree}deg)`;
-
       const mins = now.getMinutes();
-      const minsDegree = ((mins / 60) * 360) + ((seconds / 60 / 60) * 360);
-      minHand.style.transform = `rotate(${minsDegree}deg)`;
-
       const hour = now.getHours();
+
+      const secondsDegree = (seconds / 60) * 360;
+      const minsDegree = ((mins / 60) * 360) + ((seconds / 60 / 60) * 360);
       const hourDegree = ((hour / 12) * 360) + ((mins / 12 / 60) * 360);
+
+      if (secondsDegree + minsDegree + hourDegree === 0) {
+        document.querySelector('.hand').style.transition = 'all 0s'
+      } else {
+        document.querySelector('.hand').style.transition = 'all 5ms'
+      }
+
+      secondHand.style.transform = `rotate(${secondsDegree}deg)`;
+      minuteHand.style.transform = `rotate(${minsDegree}deg)`;
       hourHand.style.transform = `rotate(${hourDegree}deg)`;
     }
 
-
-    setInterval(setDate, 1000);
+    setInterval(setTime, 1000);
 
 
   </script>
